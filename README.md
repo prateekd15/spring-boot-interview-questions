@@ -1,4 +1,4 @@
-# spring-boot-interview-questions
+# Spring Boot Interview Questions
 
 ## Table of Contents
 | No. | Questions                                                                                                                                                     |

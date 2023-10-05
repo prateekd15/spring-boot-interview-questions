@@ -1,6 +1,30 @@
 # spring-boot-interview-questions
 
 
+| No. | Questions                                                                                                                                                     |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | [What is Spring Boot?](#what-is-spring-boot)|
+| 2   | [Explain the key features of Spring Boot.](#explain-the-key-features-of-spring-boot)|
+| 3   | [What is the Spring Boot Starter?](#what-is-the-spring-boot-starter)|
+| 4   | [What is Inversion of Control in Spring Boot?](#what-is-inversion-of-control-in-spring-boot)|
+| 5   | [Explain Dependency Injection in Spring Boot.](#explain-dependency-injection-in-spring-boot)|
+| 6   | [What are the advantages of using Spring Boot for microservices development?](#what-are-the-advantages-of-using-spring-boot-for-microservices-development)|
+| 7   | [What is the purpose of the Spring Boot Auto-Configuration feature?](#what-is-the-purpose-of-the-spring-boot-auto-configuration-feature)|
+| 8   | [How can you customize the default behavior of Spring Boot?](#how-can-you-customize-the-default-behavior-of-spring-boot)|
+| 9   | [What are Spring Boot Profiles, and why are they useful?](#what-are-spring-boot-profiles-and-why-are-they-useful)|
+| 10  | [How can you use Spring Boot's support for conditional bean registration.](#how-can-you-use-spring-boots-support-for-conditional-bean-registration)|
+| 11  | [List all the conditional annotations in Spring Boot.](#list-all-the-conditional-annotations-in-spring-boot)|
+| 12  | [Explain the use of @ComponentScan annotation.](#explain-the-use-of-componentscan-annotation)|
+| 13  | [What is the purpose of the @SpringBootApplication annotation?](#what-is-the-purpose-of-the-springbootapplication-annotation)|
+| 14  | [Explain the use of @Component annotation.](#explain-the-use-of-component-annotation)|
+| 15  | [Explain the use of @Service, @Repository, @RestController annotations](#explain-the-use-of-service-repository-restcontroller-annotations)|
+| 16  | [Explain the difference between Spring Boot's @RestController and @Controller annotations.]()|
+| 17  | [Explain exception handling in spring boot.](#explain-exception-handling-in-spring-boot)|
+| 18  | [What is the purpose of ResponseEntityExceptionHandler in Spring Boot, and how does it relate to exception handling in a RESTful API?](#what-is-the-purpose-of-responseentityexceptionhandler-in-spring-boot-and-how-does-it-relate-to-exception-handling-in-a-restful-api)|
+| 19  | [What is Spring Boot Actuator, and what kind of information can you gather from it?](#what-is-spring-boot-actuator-and-what-kind-of-information-can-you-gather-from-it)|
+| 20  | [What is Spring Boot DevTools, and how can it aid in development?](#what-is-spring-boot-devtools-and-how-can-it-aid-in-development) | 
+
+
 ## What is Spring Boot?
 
 Spring Boot is an open-source, opinionated framework and a project within the larger Spring ecosystem that simplifies the development of production-ready Java applications. It streamlines the development of Spring-based applications by providing sensible defaults, reducing the need for extensive configuration, and offering tools and conventions for building production-ready applications quickly. It is well-suited for building microservices, web applications, and other Java-based projects that benefit from rapid development and ease of deployment.

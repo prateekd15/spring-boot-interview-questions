@@ -1,6 +1,6 @@
 # spring-boot-interview-questions
 
-
+## Table of Contents
 | No. | Questions                                                                                                                                                     |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1   | [What is Spring Boot?](#what-is-spring-boot)|
@@ -29,6 +29,8 @@
 
 Spring Boot is an open-source, opinionated framework and a project within the larger Spring ecosystem that simplifies the development of production-ready Java applications. It streamlines the development of Spring-based applications by providing sensible defaults, reducing the need for extensive configuration, and offering tools and conventions for building production-ready applications quickly. It is well-suited for building microservices, web applications, and other Java-based projects that benefit from rapid development and ease of deployment.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## Explain the key features of Spring Boot.
 
@@ -49,6 +51,8 @@ Here are some key features and differences between Spring Boot and the Spring Fr
 7. **Production-Ready Features:** Spring Boot includes built-in support for features like health checks, metrics, security, and externalized configuration, making it easier to build and maintain production-ready applications.
 
 8. **Spring Ecosystem Integration:** While Spring Boot simplifies many aspects of Spring development, it is built on top of the Spring Framework. This means you can still leverage the full power of the Spring ecosystem, including Spring Data, Spring Security, Spring Cloud, and other Spring projects, within a Spring Boot application.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## What is the Spring Boot Starter?
@@ -83,6 +87,8 @@ Some commonly used Spring Boot Starters include:
 
 To use a Spring Boot Starter, you typically include it as a dependency in your project's build configuration (Maven or Gradle). Once added, the starter's dependencies and configurations are automatically integrated into your application, allowing you to focus on developing your application's specific functionality.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## What is Inversion of Control in Spring Boot?
 
@@ -103,6 +109,8 @@ Here's a breakdown of how Inversion of Control works in Spring Boot:
 5. **Testing**: IoC makes it easier to write unit tests for your components because you can inject mock or stub dependencies during testing. This allows you to isolate the component you're testing and focus on its behavior.
 
 6. **Flexibility and Configurability**: Spring Boot allows you to configure your application using various sources, such as properties files, YAML files, and environment variables. This flexibility makes it easy to change the behavior of your application without modifying code.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## Explain Dependency Injection in Spring Boot.
@@ -134,6 +142,9 @@ Here's an explanation of Dependency Injection in Spring Boot:
    - **Flexibility**: You can easily reconfigure the application by changing the bean definitions or configurations, without modifying the source code.
    - **Loose Coupling**: DI reduces tight coupling between classes, which enhances maintainability and extensibility.
    - **Centralized Bean Management**: Spring Boot's IoC container manages the lifecycle of beans, ensuring proper initialization and disposal.
+
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## What are the advantages of using Spring Boot for microservices development?
 
@@ -167,9 +178,14 @@ Spring Boot is a popular choice for developing microservices due to several adva
 
 In summary, Spring Boot provides a comprehensive set of features and tools that simplify the development, deployment, and management of microservices. Its ecosystem and community support, along with its alignment with microservices best practices, make it a popular choice for building microservices-based applications.
 
+**[⬆ Back to Top](#table-of-contents)**
+
+
 ## What is the purpose of the Spring Boot Auto-Configuration feature?
 
 Auto-configuration in Spring Boot is a powerful feature that automatically configures beans and components based on the libraries and dependencies detected on the classpath. It simplifies the configuration of your Spring Boot application by providing sensible defaults, reducing boilerplate code and reducing the need for manual configuration. It follows the "convention over configuration" principle, making it easier to build production-ready applications quickly while allowing for customization when needed.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## How can you customize the default behavior of Spring Boot?
@@ -194,10 +210,14 @@ You can customize the default behavior of Spring Boot in several ways. These app
 
 10. **Customize Embedded Servers:** Modify embedded server settings, such as port numbers and SSL configurations, in your application properties or Java code.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## What are Spring Boot Profiles, and why are they useful?
 
 Spring Boot profiles are a feature that allows you to define and manage different configurations for your Spring Boot application based on specific runtime or deployment environments. Profiles are useful because they enable you to customize your application's behavior for different scenarios without modifying the code. This makes your application more adaptable, portable, and suitable for various environments.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ##  How can you use Spring Boot's support for conditional bean registration.
@@ -215,6 +235,9 @@ Spring Boot provides support for conditional bean registration through the use o
     }
 }
  ```
+
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## List all the conditional annotations in Spring Boot.
 
@@ -258,11 +281,15 @@ Spring Boot provides several conditional annotations that you can use to conditi
 
 19. **`@ConditionalOnEnabledEndpoint:`** It checks whether a specific actuator endpoint is enabled before enabling the annotated component.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## Explain the use of `@ComponentScan` annotation.
 
 With Spring, we use the @ComponentScan annotation along with the @Configuration annotation to specify the packages that we want to be scanned. @ComponentScan without arguments tells Spring to scan the current package and all of its sub-packages.
 We can specify `basePackages` argument to explicitly define the packages to be scanned.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## What is the purpose of the @SpringBootApplication annotation?
@@ -280,10 +307,14 @@ This annotation serves following important purposes:
 
 5. **Spring Boot Features:** By using `@SpringBootApplication`, you automatically enable many of Spring Boot's features, such as embedded web server setup, production-ready endpoints (via Actuator), externalized configuration (via `application.properties` or `application.yml`), and more.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## Explain the use of `@Component` annotation.
 
 The `@Component` annotation is a fundamental annotation in the Spring Framework used to declare a class as a Spring-managed component. Components are typically Java classes that encapsulate certain functionality and are managed by the Spring container. The primary purpose of the `@Component` annotation is to tell Spring to create an instance of the annotated class (bean) and manage its lifecycle.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## Explain the use of `@Service`, `@Repository`, `@RestController` annotations
@@ -332,6 +363,8 @@ The `@Service`, `@Repository`, and `@RestController` annotations are specializat
        }
    }
    ```
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## Explain the difference between Spring Boot's @RestController and @Controller annotations.
@@ -387,6 +420,8 @@ The `@RestController` and `@Controller` annotations in Spring Boot are both used
          }
      }
      ```
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## Explain exception handling in spring boot.
@@ -465,10 +500,14 @@ Exception handling in Spring Boot allows you to manage and control how your appl
    
    - In RESTful APIs, you can customize error responses using Spring Boot's exception handling mechanisms. By returning custom error DTOs (Data Transfer Objects) from your exception handlers, you can provide structured error responses in JSON format, including error codes and descriptions.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 
 ## What is the purpose of ResponseEntityExceptionHandler in Spring Boot, and how does it relate to exception handling in a RESTful API?
 
 ResponseEntityExceptionHandler is a base class in Spring Boot used for handling exceptions in a RESTful API. It allows you to create custom exception handling methods that translate exceptions into appropriate HTTP responses. These methods use the @ExceptionHandler annotation to specify which exceptions they handle and return ResponseEntity instances with customized HTTP status codes, headers, and response bodies.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## What is Spring Boot Actuator, and what kind of information can you gather from it?
@@ -486,6 +525,8 @@ Here are some of the key features and information you can gather from Spring Boo
 4. **Application Shutdown (`/actuator/shutdown`):** The shutdown endpoint allows you to gracefully shut down the Spring Boot application. This can be useful for managing the application's lifecycle in a controlled manner.
 
 5. **Custom Endpoints:** Spring Boot Actuator allows you to create custom endpoints to expose application-specific information or perform custom management tasks. You can define your own endpoints to gather data relevant to your application's needs.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 
 ## What is Spring Boot DevTools, and how can it aid in development?
@@ -508,5 +549,6 @@ Spring Boot DevTools is a set of development-time tools and features provided by
 
 8. **Customized Restart Behavior:** You can customize the restart behavior of DevTools, specifying which parts of your application should be reloaded and which should not. This fine-grained control allows you to avoid unnecessary restarts.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## 

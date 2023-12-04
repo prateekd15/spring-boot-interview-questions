@@ -1,17 +1,18 @@
 # Spring Data JPA Interview Questions
 
 ## Table of Contents
-| Questions                                                                                                                                                     |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [What is JPA?](#what-is-jpa)|
-| [What is Spring Data JPA, and how does it differ from traditional JPA?](what-is-spring-data-jpa-and-how-does-it-differ-from-traditional-jpa)|
-| [Explain the main components of Spring Data JPA.](#explain-the-main-components-of-spring-data-jpa)|
-| [What is the purpose of a repository in Spring Data JPA, and how do you define one?](#what-is-the-purpose-of-a-repository-in-spring-data-jpa-and-how-do-you-define-one)|
-| [Comapre JpaRepository, CrudRepository, PagingAndSortingRepository in spring data JPA.](#comapre-jparepository-crudrepository-pagingandsortingrepository-in-spring-data-jpa)|
-| [How can you achieve a native SQL query with Spring Data JPA?](#how-can-you-achieve-a-native-sql-query-with-spring-data-jpa)|
-| [How do you perform pagination in Spring Data JPA?](#how-do-you-perform-pagination-in-spring-data-jpa)|
-| [Explain the FetchType options in JPA, and when would you use `EAGER` vs. `LAZY` loading?](#explain-the-fetchtype-options-in-jpa-and-when-would-you-use-eager-vs-lazy-loading)|
-
+| Questions                                                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [What is JPA?](#what-is-jpa)                                                                                                                                                   |
+| [What is Spring Data JPA, and how does it differ from traditional JPA?](what-is-spring-data-jpa-and-how-does-it-differ-from-traditional-jpa)                                   |
+| [Explain the main components of Spring Data JPA.](#explain-the-main-components-of-spring-data-jpa)                                                                             |
+| [What is the purpose of a repository in Spring Data JPA, and how do you define one?](#what-is-the-purpose-of-a-repository-in-spring-data-jpa-and-how-do-you-define-one)        |
+| [Comapre JpaRepository, CrudRepository, PagingAndSortingRepository in spring data JPA.](#comapre-jparepository-crudrepository-pagingandsortingrepository-in-spring-data-jpa)   |
+| [How can you achieve a native SQL query with Spring Data JPA?](#how-can-you-achieve-a-native-sql-query-with-spring-data-jpa)                                                   |
+| [How do you perform pagination in Spring Data JPA?](#how-do-you-perform-pagination-in-spring-data-jpa)                                                                         |
+| [Explain the FetchType options in JPA, and when would you use `EAGER` vs. `LAZY` loading?](#explain-the-fetchtype-options-in-jpa-and-when-would-you-use-eager-vs-lazy-loading) |
+| [Explain the differences between detached, managed, and transient entities in JPA.]()                                                                                          |
+| [Explain the following JPA annotations: `@Entity`, `@ Id`, `@GeneratedValue`]()                                                                                                |
 
 ## What is JPA?
 
@@ -289,6 +290,460 @@ In summary:
 - Managed entities are actively tracked within a persistence context and are synchronized with the database upon transaction commit.
 - Detached entities were once managed but have become disconnected from the persistence context and need to be reattached for changes to be persisted.
 
+## Explain the following JPA annotations: `@Entity`, `@ Id`, `@GeneratedValue`
+#### @Entity:
 
- What is the role of the `@JoinColumn` annotation, and when would you use it?
+The @Entity annotation is used to mark a Java class as an entity, which means that instances of this class will be persisted to a relational database. In the context of JPA, an entity represents a table in a relational database. Each instance of an entity corresponds to a row in the table.
+```java
+@Entity
+public class MyClass {
+// class fields, constructors, and methods
+}
+```
+
+#### @Id:
+The @Id annotation is used to designate a field as the primary key of the entity. The primary key uniquely identifies each record in the database table. In JPA, every entity must have a primary key, and this annotation indicates which field serves as that primary key.
+```java
+@Entity
+public class MyClass {
+@Id
+private Long id;
+// other fields, constructors, and methods
+}
+```
+
+
+#### @GeneratedValue:
+The @GeneratedValue annotation is used in conjunction with the @Id annotation to specify how the primary key should be generated. It is typically applied to a field of numeric type (e.g., int, long) and indicates that the persistence provider (like Hibernate) should automatically generate a value for the primary key when a new entity is persisted.
+```java
+@Entity
+public class MyClass {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+// other fields, constructors, and methods
+}
+```
+Common strategies for @GeneratedValue include:
+
+`GenerationType.IDENTITY`: The database automatically generates the primary key.
+`GenerationType.SEQUENCE`: A database sequence is used to generate the primary key.
+`GenerationType.AUTO`: The persistence provider chooses an appropriate strategy.
+Keep in mind that these annotations provide a convenient way to map Java objects to database tables and manage the underlying data store. The specific behavior may vary depending on the JPA provider (e.g., Hibernate) and the database system being used.
+
+## Explain the following JPA annotations: `@Table`, `@Column`, `@Temporal`
+#### @Table:
+
+The @Table annotation is used to specify the details of the database table to which the entity is mapped. You can use it to define the table name, schema, and other properties.
+```java
+@Entity
+@Table(name = "my_table", schema = "my_schema")
+public class MyClass {
+// fields, constructors, and methods
+}
+```
+
+#### @Column:
+
+The @Column annotation is used to customize the mapping of a field to a database column. You can use it to specify the column name, nullable constraints, length, and other attributes.
+```java
+@Entity
+public class MyClass {
+@Id
+@Column(name = "my_id_column")
+private Long id;
+
+    @Column(nullable = false, length = 50)
+    private String name;
+
+    // other fields, constructors, and methods
+}
+```
+
+#### @Temporal:
+
+The @Temporal annotation is used to map a java.util.Date or java.util.Calendar field to a database date or timestamp column.
+```java
+@Entity
+public class Event {
+@Id
+private Long eventId;
+
+    @Temporal(TemporalType.DATE)
+    private Date eventDate;
+
+    // other fields, constructors, and methods
+}
+```
+## Explain One to One unidirectional and bidirectional relationships in JPA.
+In JPA, a one-to-one relationship represents a relationship between two entities where one instance of an entity is associated with exactly one instance of another entity. There are two ways to model one-to-one relationships: unidirectional and bidirectional.
+
+1. One-to-One Unidirectional Relationship:
+   In a unidirectional one-to-one relationship, only one entity has a reference to the other. This means that one entity knows about the other, but the reverse is not true. Let's consider an example of a unidirectional relationship between Person and Address entities.
+
+```java
+@Entity
+public class Person {
+@Id
+private Long id;
+private String name;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    // other fields, constructors, and methods
+}
+
+@Entity
+public class Address {
+@Id
+private Long id;
+private String street;
+
+    // other fields, constructors, and methods
+}
+```
+In this example, the Person entity has a reference to the Address entity through the address field. However, the Address entity doesn't have a reference back to the Person entity.
+
+2. One-to-One Bidirectional Relationship:
+   In a bidirectional one-to-one relationship, both entities have a reference to each other. This means that each entity can navigate to the other. Using the same example, we can modify the entities to create a bidirectional relationship.
+
+```java
+@Entity
+public class Person {
+@Id
+private Long id;
+private String name;
+
+    @OneToOne(mappedBy = "person")
+    private Address address;
+
+    // other fields, constructors, and methods
+}
+
+@Entity
+public class Address {
+@Id
+private Long id;
+private String street;
+
+    @OneToOne
+    @JoinColumn(name = "person_id")
+    private Person person;
+
+    // other fields, constructors, and methods
+}
+```
+In this bidirectional example, the Person entity has an address field referring to the associated Address, and the Address entity has a person field referring back to the associated Person. The mappedBy attribute in the @OneToOne annotation on the Person side indicates that the mapping is handled by the address field in the Address entity.
+
+Choosing between unidirectional and bidirectional relationships depends on the specific use case and navigation requirements of your application. Bidirectional relationships can be more convenient for navigation in both directions, but they also require careful management to avoid potential issues such as circular references and performance considerations.
+
+## Explain `@OneToOne` annotation along with the most used properties.
+The @OneToOne annotation in JPA is used to define a one-to-one relationship between two entities. This annotation can be applied to a field or a property within an entity class, indicating that an instance of the annotated class is associated with exactly one instance of the target class.
+
+Basic Usage:
+```java
+@Entity
+public class Person {
+@Id
+private Long id;
+private String name;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
+
+    // other fields, constructors, and methods
+}
+```
+In this example, the Person entity has a one-to-one relationship with the Address entity. The @OneToOne annotation is applied to the address field, indicating that each Person instance is associated with exactly one Address instance.
+
+#### @JoinColumn:
+
+The @JoinColumn annotation is used to specify the foreign key column in the database that is used to establish the association. It is often used with @OneToOne to define the column name and other properties of the foreign key.
+```java
+@OneToOne
+@JoinColumn(name = "address_id", unique = true, nullable = false, updatable = false)
+private Address address;
+```
+In this example, the address field in the Person entity is associated with the address_id column in the database. The unique, nullable, and updatable attributes define constraints on the foreign key column.
+
+#### MappedBy (for Bidirectional Relationships):
+
+The mappedBy attribute is used in bidirectional relationships to specify the field that owns the relationship. It is used on the inverse side of the association.
+```java
+@Entity
+public class Address {
+@Id
+private Long id;
+private String street;
+
+    @OneToOne(mappedBy = "address")
+    private Person person;
+
+    // other fields, constructors, and methods
+}
+```
+Here, the mappedBy attribute is used to indicate that the owning side of the relationship is the address field in the Person entity. This establishes a bidirectional one-to-one relationship between Person and Address.
+
+#### Cascade Type:
+
+The cascade attribute is used to specify operations that should be cascaded to the target of the association. Common cascade types include CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE, etc.
+```java
+@OneToOne(cascade = CascadeType.ALL)
+@JoinColumn(name = "address_id")
+private Address address;
+```
+In this example, operations such as persisting, merging, and removing a Person entity will also be applied to its associated Address entity.
+
+#### Fetch Type:
+
+The fetch attribute is used to specify whether the associated entity should be eagerly or lazily fetched. Eager fetching means that the associated entity is loaded immediately, while lazy fetching means it is loaded only when accessed.
+```java
+@OneToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "address_id")
+private Address address;
+```
+Here, the Address entity will be loaded lazily when accessed through the address field in the Person entity.
+
+## Explain One to Many unidirectional and bidirectional relationship
+
+In JPA, a one-to-many relationship represents a relationship between two entities where one instance of an entity is associated with a collection of instances of another entity. Like one-to-one relationships, one-to-many relationships can be modeled as unidirectional or bidirectional.
+
+1. One-to-Many Unidirectional Relationship:
+   In a unidirectional one-to-many relationship, only one entity has a reference to the other, and the other entity does not have a reference back. This is a common scenario where one entity is the "owner" of the relationship, and the other entity is the "dependent" or "child" entity.
+
+```java
+@Entity
+public class Department {
+@Id
+private Long id;
+private String name;
+
+    @OneToMany
+    @JoinColumn(name = "department_id")
+    private List<Employee> employees;
+
+    // other fields, constructors, and methods
+}
+
+@Entity
+public class Employee {
+@Id
+private Long id;
+private String name;
+
+    // other fields, constructors, and methods
+}
+```
+In this example, the Department entity has a one-to-many relationship with the Employee entity. The employees field in the Department entity represents the collection of associated employees.
+
+2. One-to-Many Bidirectional Relationship:
+   In a bidirectional one-to-many relationship, both entities have a relationship with each other. The "parent" entity has a collection of "child" entities, and each "child" entity has a reference back to the "parent" entity.
+
+```java
+@Entity
+public class Department {
+@Id
+private Long id;
+private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
+
+    // other fields, constructors, and methods
+}
+
+@Entity
+public class Employee {
+@Id
+private Long id;
+private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // other fields, constructors, and methods
+}
+```
+In this bidirectional example, the Department entity has a employees field representing the collection of associated employees, and the Employee entity has a department field referring back to the associated department. The mappedBy attribute in the @OneToMany annotation on the Department side indicates that the mapping is handled by the department field in the Employee entity.
+
+Important Considerations:
+In a bidirectional one-to-many relationship, the mappedBy attribute is used on the "owning" side of the relationship to indicate which field in the "inverse" (or "non-owning") side is used for the mapping.
+
+The @JoinColumn annotation can be used to specify the foreign key column when needed. In bidirectional relationships, the @JoinColumn annotation is typically used on the "owning" side.
+
+Cascading and fetch strategies can also be configured using annotations such as @OneToMany(cascade = ...), @OneToMany(fetch = ...), and so on.
+
+Choice between unidirectional and bidirectional relationships is based on the navigation requirements and design considerations of your application. Bidirectional relationships often provide more natural navigation in both directions, but they also require careful management to avoid potential issues such as circular references and performance considerations.
+
+## Explain the use of  JPA `@OneToMany` annotation  in detail.
+The @OneToMany annotation in JPA is used to define a one-to-many relationship between two entities. This annotation is applied to a collection-type field in the "owning" entity, indicating that there is a one-to-many association between instances of the owning entity and instances of the target (or "mapped") entity.
+
+Basic Usage:
+
+```java
+@Entity
+public class Department {
+@Id
+private Long id;
+private String name;
+
+    @OneToMany
+    @JoinColumn(name = "department_id")
+    private List<Employee> employees;
+
+    // other fields, constructors, and methods
+}
+```
+In this example, the Department entity has a one-to-many relationship with the Employee entity. The @OneToMany annotation is applied to the employees field, indicating that each Department instance is associated with a list of Employee instances.
+
+@JoinColumn:
+
+The @JoinColumn annotation is used to specify the foreign key column in the database that is used to establish the association. It is often used with @OneToMany to define the column name and other properties of the foreign key.
+java
+Copy code
+@OneToMany
+@JoinColumn(name = "department_id", nullable = false)
+private List<Employee> employees;
+In this example, the employees field in the Department entity is associated with the department_id column in the database. The nullable attribute defines whether the foreign key column allows null values.
+
+MappedBy (for Bidirectional Relationships):
+
+The mappedBy attribute is used in bidirectional relationships to specify the field that owns the relationship. It is used on the inverse side of the association.
+```java
+@Entity
+public class Employee {
+@Id
+private Long id;
+private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // other fields, constructors, and methods
+}
+```
+```java
+@Entity
+public class Department {
+@Id
+private Long id;
+private String name;
+
+    @OneToMany(mappedBy = "department")
+    private List<Employee> employees;
+
+    // other fields, constructors, and methods
+}
+```
+In this bidirectional example, the Department entity has an employees field referring to the associated Employee instances, and the Employee entity has a department field referring back to the associated Department. The mappedBy attribute in the @OneToMany annotation on the Department side indicates that the mapping is handled by the department field in the Employee entity.
+
+#### Cascade Type:
+
+The cascade attribute is used to specify operations that should be cascaded to the target of the association. Common cascade types include CascadeType.ALL, CascadeType.PERSIST, CascadeType.MERGE, etc.
+```java
+@OneToMany(cascade = CascadeType.ALL)
+@JoinColumn(name = "department_id")
+private List<Employee> employees;
+```
+In this example, operations such as persisting, merging, and removing a Department entity will also be applied to its associated Employee entities.
+
+#### Fetch Type:
+
+The fetch attribute is used to specify whether the associated entities should be eagerly or lazily fetched. Eager fetching means that the associated entities are loaded immediately, while lazy fetching means they are loaded only when accessed.
+```java
+@OneToMany(fetch = FetchType.LAZY)
+@JoinColumn(name = "department_id")
+private List<Employee> employees;
+```
+Here, the Employee entities will be loaded lazily when accessed through the employees field in the Department entity.
+
+These are some of the key aspects of using the @OneToMany annotation in JPA. It provides a flexible way to model one-to-many relationships between entities in a Java application. The choice between unidirectional and bidirectional relationships depends on the specific use case and navigation requirements of your application.
+
+## Explain the difference between @OneToMany and @ManyToOne annotations.
+The @OneToMany and @ManyToOne annotations in JPA are used to define relationships between entities, specifically to represent one-to-many and many-to-one associations, respectively. These annotations work in conjunction to establish the mapping between entities. Here are the key differences between @OneToMany and @ManyToOne:
+
+#### 1. Cardinality:
+   `@OneToMany`: Represents a one-to-many association. This means that one instance of the source entity is associated with multiple instances of the target entity.
+
+```java
+@Entity
+public class Department {
+@Id
+private Long id;
+private String name;
+
+    @OneToMany
+    @JoinColumn(name = "department_id")
+    private List<Employee> employees;
+
+    // other fields, constructors, and methods
+}
+```
+@ManyToOne: Represents a many-to-one association. This means that multiple instances of the source entity can be associated with a single instance of the target entity.
+
+```java
+@Entity
+public class Employee {
+@Id
+private Long id;
+private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // other fields, constructors, and methods
+}
+```
+
+#### 2. Direction of the Relationship:
+@OneToMany: Typically used on the "one" side of a one-to-many relationship. It is placed on a collection-type field in the owning entity, representing the "one" side.
+
+@ManyToOne: Typically used on the "many" side of a one-to-many relationship. It is placed on a field in the target (or dependent) entity, representing the "many" side.
+
+#### 3. Ownership:
+   @OneToMany: Implies ownership by the source entity. It often includes the mappedBy attribute when used in a bidirectional relationship to indicate the field in the target entity that owns the relationship.
+
+```java
+@Entity
+public class Department {
+@OneToMany(mappedBy = "department")
+private List<Employee> employees;
+}
+```
+@ManyToOne: Implies that the target entity is the owner of the relationship. It includes the @JoinColumn annotation to specify the foreign key column in the database.
+
+```java
+@Entity
+public class Employee {
+@ManyToOne
+@JoinColumn(name = "department_id")
+private Department department;
+}
+```
+#### 4. Mapping Foreign Key:
+`@OneToMany`: Uses the @JoinColumn annotation to specify the foreign key column in the table of the target entity.
+
+`@ManyToOne`: Uses the @JoinColumn annotation to specify the foreign key column in the table of the owning entity.
+
+#### 5. Use Cases:
+`@OneToMany`: Used when there is a need to represent a collection of entities in the source entity. For example, a Department entity having a list of Employee entities.
+
+`@ManyToOne`: Used when there is a need to represent a single entity in the source entity. For example, an Employee entity having a reference to a single Department entity.
+
+#### 6. Cascade Type:
+`@OneToMany`: Allows the specification of cascade types (e.g., CascadeType.ALL) to propagate certain operations (like persist, merge, delete) from the source entity to the target entities.
+
+`@ManyToOne`: Typically does not specify cascade types, as the target entity is considered to be the owner of the relationship.
+
+In summary, @OneToMany is used to define a one-to-many relationship, indicating that one entity has a collection of another entity, while @ManyToOne is used to define a many-to-one relationship, indicating that multiple entities in one class are associated with a single entity in another class. Together, these annotations help establish the mapping and relationships between entities in a JPA application.
+
+
+
+
 

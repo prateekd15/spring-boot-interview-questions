@@ -11,8 +11,17 @@
 | [How can you achieve a native SQL query with Spring Data JPA?](#how-can-you-achieve-a-native-sql-query-with-spring-data-jpa)                                                   |
 | [How do you perform pagination in Spring Data JPA?](#how-do-you-perform-pagination-in-spring-data-jpa)                                                                         |
 | [Explain the FetchType options in JPA, and when would you use `EAGER` vs. `LAZY` loading?](#explain-the-fetchtype-options-in-jpa-and-when-would-you-use-eager-vs-lazy-loading) |
-| [Explain the differences between detached, managed, and transient entities in JPA.]()                                                                                          |
-| [Explain the following JPA annotations: `@Entity`, `@ Id`, `@GeneratedValue`]()                                                                                                |
+| [Explain the differences between detached, managed, and transient entities in JPA.](#explain-the-differences-between-detached-managed-and-transient-entities-in-jpa)                                                                                          |
+| [Explain the following JPA annotations: `@Entity`, `@ Id`, `@GeneratedValue`](#explain-the-following-jpa-annotations-entity--id-generatedvalue) |
+| [Explain the following JPA annotations: @Table, @Column, @Temporal](#explain-the-following-jpa-annotations-table-column-temporal) |
+| [Explain One to One unidirectional and bidirectional relationships in JPA.](#explain-one-to-one-unidirectional-and-bidirectional-relationships-in-jpa) |
+| [Explain @OneToOne annotation along with the most used properties.](#explain-onetoone-annotation-along-with-the-most-used-properties) |
+| [Explain One to Many unidirectional and bidirectional relationship.](#explain-one-to-many-unidirectional-and-bidirectional-relationship) |
+| [Explain unidirectional Many to One relationship in JPA.](#explain-unidirectional-many-to-one-relationship-in-jpa)
+| [Explain the use of JPA @OneToMany annotation in detail.](#explain-the-use-of--jpa-onetomany-annotation--in-detail) |
+| [Explain the difference between @OneToMany and @ManyToOne annotations.](#explain-the-difference-between-onetomany-and-manytoone-annotations) |
+| [Explain Many to Many unidirectional and bidirectional relationships in JPA.]() |
+
 
 ## What is JPA?
 
@@ -390,7 +399,7 @@ private String name;
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    private Address address;
+    private Address address; //This creates a foreign key column in Person entity with name address_id that references address.id
 
     // other fields, constructors, and methods
 }
@@ -417,7 +426,7 @@ private Long id;
 private String name;
 
     @OneToOne(mappedBy = "person")
-    private Address address;
+    private Address address; //This does not create any column in the Person schema
 
     // other fields, constructors, and methods
 }
@@ -430,7 +439,7 @@ private String street;
 
     @OneToOne
     @JoinColumn(name = "person_id")
-    private Person person;
+    private Person person; //This creates a foreign key column in Address entity with name person_id that references person.id
 
     // other fields, constructors, and methods
 }
@@ -452,7 +461,7 @@ private String name;
 
     @OneToOne
     @JoinColumn(name = "address_id")
-    private Address address;
+    private Address address; //This creates a foreign key column in Person entity with name address_id that references address.id
 
     // other fields, constructors, and methods
 }
@@ -513,17 +522,19 @@ In JPA, a one-to-many relationship represents a relationship between two entitie
 
 1. One-to-Many Unidirectional Relationship:
    In a unidirectional one-to-many relationship, only one entity has a reference to the other, and the other entity does not have a reference back. This is a common scenario where one entity is the "owner" of the relationship, and the other entity is the "dependent" or "child" entity.
+   However, it is important to note that when using a unidirectional @OneToMany association, you can't use the annotation `@JoinColumn`. In this case, Hibernate follows the default process of creating a intermediate join table and then it will be able to proceed.
 
 ```java
 @Entity
 public class Department {
-@Id
-private Long id;
-private String name;
+    
+    @Id
+    private Long id;
 
+    private String name;
+    
     @OneToMany
-    @JoinColumn(name = "department_id")
-    private List<Employee> employees;
+    private List<Employee> employees; 
 
     // other fields, constructors, and methods
 }
@@ -578,6 +589,32 @@ The @JoinColumn annotation can be used to specify the foreign key column when ne
 Cascading and fetch strategies can also be configured using annotations such as @OneToMany(cascade = ...), @OneToMany(fetch = ...), and so on.
 
 Choice between unidirectional and bidirectional relationships is based on the navigation requirements and design considerations of your application. Bidirectional relationships often provide more natural navigation in both directions, but they also require careful management to avoid potential issues such as circular references and performance considerations.
+
+## Explain unidirectional Many to One relationship in JPA.
+
+In a unidirectional Many to One relationship in JPA, you can define a Many-to-One association from one entity to another without necessarily having a corresponding One-to-Many association in the target entity.
+
+```java
+@Entity
+public class ChildEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Unidirectional ManyToOne relationship
+    @ManyToOne
+    @JoinColumn(name = "parent_id") // This specifies the foreign key column in the ChildEntity table
+    private ParentEntity parent;
+
+    // Other fields and methods...
+}
+```
+
+In this example, ChildEntity has a unidirectional Many-to-One relationship with ParentEntity. The @ManyToOne annotation is used to define the relationship, and the @JoinColumn annotation is used to specify the name of the foreign key column in the ChildEntity table.
+
+It's important to note that in a unidirectional Many-to-One relationship, changes to the ChildEntity will not cascade to the ParentEntity. If you want to establish a bidirectional relationship where changes to one side are reflected on the other side, you would need to add a corresponding @OneToMany or @OneToOne association in the ParentEntity.
+
 
 ## Explain the use of  JPA `@OneToMany` annotation  in detail.
 The @OneToMany annotation in JPA is used to define a one-to-many relationship between two entities. This annotation is applied to a collection-type field in the "owning" entity, indicating that there is a one-to-many association between instances of the owning entity and instances of the target (or "mapped") entity.
@@ -743,7 +780,100 @@ private Department department;
 
 In summary, @OneToMany is used to define a one-to-many relationship, indicating that one entity has a collection of another entity, while @ManyToOne is used to define a many-to-one relationship, indicating that multiple entities in one class are associated with a single entity in another class. Together, these annotations help establish the mapping and relationships between entities in a JPA application.
 
+## Explain Many to Many unidirectional and bidirectional relationships in JPA.
+
+In the context of Java Persistence API (JPA), "Many-to-Many" relationships refer to associations between entities where one instance of an entity can be related to multiple instances of another entity, and vice versa. There are two types of Many-to-Many relationships: unidirectional and bidirectional.
+
+Many-to-Many Unidirectional Relationship:
+In a Many-to-Many unidirectional relationship, only one side of the relationship knows about the other. Let's consider two entities, Student and Course, where each student can be enrolled in multiple courses, and each course can have multiple students.
+
+Student Entity:
+
+``` java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // other fields
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private Set<Course> courses = new HashSet<>();
+
+    // getters and setters
+} 
+```
+
+Course Entity:
+
+``` java
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // other fields
+
+    // No need to define the relationship on this side in a unidirectional relationship
+
+    // getters and setters
+} 
+```
+
+In this example, the Student entity has a Many-to-Many relationship with the Course entity. The @ManyToMany annotation is used to represent the relationship. The @JoinTable annotation is used to define the join table that holds the foreign key references.
+
+Many-to-Many Bidirectional Relationship:
+In a Many-to-Many bidirectional relationship, both sides of the relationship are aware of each other. We can modify the previous example to make the relationship bidirectional.
+
+Student Entity:
+
+``` java
+@Entity
+public class Student {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // other fields
+
+    @ManyToMany(mappedBy = "students")
+    private Set<Course> courses = new HashSet<>();
+
+    // getters and setters
+} 
+```
 
 
+Course Entity:
+
+``` java
+@Entity
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // other fields
+
+    @ManyToMany
+    @JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "course_id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id"))
+    private Set<Student> students = new HashSet<>();
+
+    // getters and setters
+} 
+```
+
+In this bidirectional example, the Student entity uses the mappedBy attribute in the @ManyToMany annotation to indicate that the relationship is defined by the students field in the Course entity.
+
+In both unidirectional and bidirectional Many-to-Many relationships, you need to carefully manage cascading and fetching strategies based on your application's requirements to avoid performance issues and ensure data consistency.
 
 

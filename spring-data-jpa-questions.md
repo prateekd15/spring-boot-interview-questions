@@ -17,7 +17,7 @@
 | [Explain One to One unidirectional and bidirectional relationships in JPA.](#explain-one-to-one-unidirectional-and-bidirectional-relationships-in-jpa) |
 | [Explain @OneToOne annotation along with the most used properties.](#explain-onetoone-annotation-along-with-the-most-used-properties) |
 | [Explain One to Many unidirectional and bidirectional relationship.](#explain-one-to-many-unidirectional-and-bidirectional-relationship) |
-| [Explain unidirectional Many to One relationship in JPA.](#explain-unidirectional-many-to-one-relationship-in-jpa)
+| [Explain unidirectional Many to One relationship in JPA.](#explain-unidirectional-many-to-one-relationship-in-jpa) |
 | [Explain the use of JPA @OneToMany annotation in detail.](#explain-the-use-of--jpa-onetomany-annotation--in-detail) |
 | [Explain the difference between @OneToMany and @ManyToOne annotations.](#explain-the-difference-between-onetomany-and-manytoone-annotations) |
 | [Explain Many to Many unidirectional and bidirectional relationships in JPA.]() |
@@ -43,6 +43,7 @@ Key features and concepts of JPA include:
 
 JPA is a part of the Java EE (Enterprise Edition) platform but can also be used in standalone Java SE (Standard Edition) applications through libraries like Hibernate, EclipseLink, or others that implement the JPA specification.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## What is Spring Data JPA, and how does it differ from traditional JPA?
 
@@ -68,6 +69,7 @@ Here are the key aspects of Spring Data JPA and how it differs from traditional 
 
 9. **Custom Repository Implementations**: If needed, you can provide custom implementations for your repository interfaces to handle more complex data access logic.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain the main components of Spring Data JPA.
 
@@ -95,6 +97,7 @@ The main components of Spring Data JPA include:
 
 11. **Specification and Query-by-Example**: Spring Data JPA provides tools for building complex queries using specifications and query-by-example (QBE) methods.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## What is the purpose of a repository in Spring Data JPA, and how do you define one?
 
@@ -114,6 +117,7 @@ Here are the key purposes of a repository in Spring Data JPA:
 
 6. **Entity Relationship Handling**: Repositories handle relationships between entities, allowing you to perform operations involving related entities easily.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Comapre JpaRepository, CrudRepository, PagingAndSortingRepository in spring data JPA.
 
@@ -164,11 +168,13 @@ In Spring Data JPA, `JpaRepository`, `CrudRepository`, and `PagingAndSortingRepo
 
 In summary, the choice between `JpaRepository`, `CrudRepository`, and `PagingAndSortingRepository` depends on your specific data access requirements. If you need only basic CRUD operations, `CrudRepository` is sufficient. If you need paging and sorting capabilities, but not custom queries, use `PagingAndSortingRepository`. If you require custom queries and the full range of repository features, including pagination and sorting, opt for `JpaRepository`. Typically, `JpaRepository` is the most commonly used repository interface in Spring Data JPA because it offers the most comprehensive functionality.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## How can you achieve a native SQL query with Spring Data JPA?
 
 We can use `@Query` annotation on the method in the Repository interface to specify a custom SQL Query.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## How do you perform pagination in Spring Data JPA?
 
@@ -222,6 +228,7 @@ int totalPages = productsPage.getTotalPages();
 
 Pagination is a powerful feature for efficiently retrieving and displaying large datasets in your application while reducing memory consumption and improving performance. Spring Data JPA handles the database query generation and execution for you, making it easier to implement pagination in your projects.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain the FetchType options in JPA, and when would you use `EAGER` vs. `LAZY` loading?
 
@@ -262,6 +269,7 @@ private Category category;
 
 In this example, the `category` association will be loaded lazily, meaning it will be fetched from the database only when you access it.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain the differences between detached, managed, and transient entities in JPA.
 
@@ -298,6 +306,8 @@ In summary:
 - Transient entities are new and not yet associated with a persistence context.
 - Managed entities are actively tracked within a persistence context and are synchronized with the database upon transaction commit.
 - Detached entities were once managed but have become disconnected from the persistence context and need to be reattached for changes to be persisted.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain the following JPA annotations: `@Entity`, `@ Id`, `@GeneratedValue`
 #### @Entity:
@@ -384,6 +394,9 @@ private Long eventId;
     // other fields, constructors, and methods
 }
 ```
+
+**[⬆ Back to Top](#table-of-contents)**
+
 ## Explain One to One unidirectional and bidirectional relationships in JPA.
 In JPA, a one-to-one relationship represents a relationship between two entities where one instance of an entity is associated with exactly one instance of another entity. There are two ways to model one-to-one relationships: unidirectional and bidirectional.
 
@@ -447,6 +460,8 @@ private String street;
 In this bidirectional example, the Person entity has an address field referring to the associated Address, and the Address entity has a person field referring back to the associated Person. The mappedBy attribute in the @OneToOne annotation on the Person side indicates that the mapping is handled by the address field in the Address entity.
 
 Choosing between unidirectional and bidirectional relationships depends on the specific use case and navigation requirements of your application. Bidirectional relationships can be more convenient for navigation in both directions, but they also require careful management to avoid potential issues such as circular references and performance considerations.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain `@OneToOne` annotation along with the most used properties.
 The @OneToOne annotation in JPA is used to define a one-to-one relationship between two entities. This annotation can be applied to a field or a property within an entity class, indicating that an instance of the annotated class is associated with exactly one instance of the target class.
@@ -515,6 +530,8 @@ The fetch attribute is used to specify whether the associated entity should be e
 private Address address;
 ```
 Here, the Address entity will be loaded lazily when accessed through the address field in the Person entity.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain One to Many unidirectional and bidirectional relationship
 
@@ -590,6 +607,8 @@ Cascading and fetch strategies can also be configured using annotations such as 
 
 Choice between unidirectional and bidirectional relationships is based on the navigation requirements and design considerations of your application. Bidirectional relationships often provide more natural navigation in both directions, but they also require careful management to avoid potential issues such as circular references and performance considerations.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 ## Explain unidirectional Many to One relationship in JPA.
 
 In a unidirectional Many to One relationship in JPA, you can define a Many-to-One association from one entity to another without necessarily having a corresponding One-to-Many association in the target entity.
@@ -615,6 +634,7 @@ In this example, ChildEntity has a unidirectional Many-to-One relationship with 
 
 It's important to note that in a unidirectional Many-to-One relationship, changes to the ChildEntity will not cascade to the ParentEntity. If you want to establish a bidirectional relationship where changes to one side are reflected on the other side, you would need to add a corresponding @OneToMany or @OneToOne association in the ParentEntity.
 
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain the use of  JPA `@OneToMany` annotation  in detail.
 The @OneToMany annotation in JPA is used to define a one-to-many relationship between two entities. This annotation is applied to a collection-type field in the "owning" entity, indicating that there is a one-to-many association between instances of the owning entity and instances of the target (or "mapped") entity.
@@ -701,6 +721,8 @@ Here, the Employee entities will be loaded lazily when accessed through the empl
 
 These are some of the key aspects of using the @OneToMany annotation in JPA. It provides a flexible way to model one-to-many relationships between entities in a Java application. The choice between unidirectional and bidirectional relationships depends on the specific use case and navigation requirements of your application.
 
+**[⬆ Back to Top](#table-of-contents)**
+
 ## Explain the difference between @OneToMany and @ManyToOne annotations.
 The @OneToMany and @ManyToOne annotations in JPA are used to define relationships between entities, specifically to represent one-to-many and many-to-one associations, respectively. These annotations work in conjunction to establish the mapping between entities. Here are the key differences between @OneToMany and @ManyToOne:
 
@@ -779,6 +801,8 @@ private Department department;
 `@ManyToOne`: Typically does not specify cascade types, as the target entity is considered to be the owner of the relationship.
 
 In summary, @OneToMany is used to define a one-to-many relationship, indicating that one entity has a collection of another entity, while @ManyToOne is used to define a many-to-one relationship, indicating that multiple entities in one class are associated with a single entity in another class. Together, these annotations help establish the mapping and relationships between entities in a JPA application.
+
+**[⬆ Back to Top](#table-of-contents)**
 
 ## Explain Many to Many unidirectional and bidirectional relationships in JPA.
 
@@ -876,4 +900,4 @@ In this bidirectional example, the Student entity uses the mappedBy attribute in
 
 In both unidirectional and bidirectional Many-to-Many relationships, you need to carefully manage cascading and fetching strategies based on your application's requirements to avoid performance issues and ensure data consistency.
 
-
+**[⬆ Back to Top](#table-of-contents)**
